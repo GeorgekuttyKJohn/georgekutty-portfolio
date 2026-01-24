@@ -30,7 +30,7 @@ export const projects = [
                 src: '/money-manager-thumb.png',
                 title: 'Money Manager',
                 description: 'A comprehensive finance tracking application helping users manage expenses and income with intuitive visualizations.',
-                software: ['React', 'Chart.js', 'Vercel'],
+                software: ['React', 'Vercel'],
                 link: 'https://money-manager-neon.vercel.app/'
             },
             {
