@@ -107,6 +107,55 @@ export const projects = [
                 software: ['Nothing Phone (2a)', 'Lightroom'],
                 link: '#'
             },
+
+            {
+                type: 'video',
+                src: '/Connection.b433a8099f4f5bb601e3.mp4',
+                title: 'Connection',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/FIGHT.f11f34d912d4457afe14.mp4',
+                title: 'FIGHT',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/Makeasmile.4294bcfef4f6cdc6540f.mp4',
+                title: 'Make a Smile',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/MusiccanchangeEmotions.21c0b610825eeda2d9b4.mp4',
+                title: 'Music Can Change Emotions',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/TakeaPicture.3ebd2a805b534e18729f.mp4',
+                title: 'Take a Picture',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/WEWILLMEETAGAIN.df9c43d85df54df5f150.mp4',
+                title: 'We Will Meet Again',
+                description: '',
+                software: [],
+                link: '#'
+            }
         ]
     },
 ];

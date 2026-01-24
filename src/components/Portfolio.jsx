@@ -126,14 +126,16 @@ const Portfolio = () => {
                                             <h1>{selectedProject.title}</h1>
                                             <p className="detail-description">{selectedProject.description}</p>
 
-                                            <div className="detail-meta">
-                                                <h3>Software Used</h3>
-                                                <div className="tech-tags">
-                                                    {selectedProject.software?.map((tech, i) => (
-                                                        <span key={i} className="tech-tag">{tech}</span>
-                                                    ))}
+                                            {selectedProject.software && selectedProject.software.length > 0 && (
+                                                <div className="detail-meta">
+                                                    <h3>Software Used</h3>
+                                                    <div className="tech-tags">
+                                                        {selectedProject.software.map((tech, i) => (
+                                                            <span key={i} className="tech-tag">{tech}</span>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            )}
 
                                             {selectedProject.link && selectedProject.link !== '#' && (
                                                 <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="project-link-btn">
