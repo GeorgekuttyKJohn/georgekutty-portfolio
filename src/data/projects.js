@@ -179,6 +179,14 @@ export const projects = [
                 description: '',
                 software: [],
                 link: '#'
+            },
+            {
+                type: 'video',
+                src: '/sible sir.mp4',
+                title: 'Sible Sir',
+                description: 'A creative videography project showcasing cinematic storytelling and visual editing.',
+                software: ['DaVinci Resolve'],
+                link: '#'
             }
         ]
     },
