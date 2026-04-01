@@ -38,6 +38,14 @@ export const projects = [
                 description: 'A comprehensive 3D model of a Mahindra Jeep, meticulously designed with intricate details and realistic assembly in SolidWorks.',
                 software: ['SolidWorks'],
                 link: '#'
+            },
+            {
+                type: 'image',
+                src: '/laptop.jpeg',
+                title: 'Laptop Model',
+                description: 'A precision-modeled laptop showcasing detailed industrial design and component assembly.',
+                software: ['SolidWorks', 'Keyshot'],
+                link: '#'
             }
         ]
     },
