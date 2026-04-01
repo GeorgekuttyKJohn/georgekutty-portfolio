@@ -14,6 +14,30 @@ export const projects = [
                 description: 'A detailed 3D assembly animation of a 4-cylinder engine, showcasing the internal mechanism, piston movement, and crankshaft operation.',
                 software: ['SolidWorks'],
                 link: '#'
+            },
+            {
+                type: 'video',
+                src: '/universal joint.mp4',
+                title: 'Universal Joint',
+                description: 'A precision-engineered 3D model and animation of a universal joint assembly, demonstrating shaft power transmission at varying angles.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/ucj .mp4',
+                title: 'Universal Joint',
+                description: 'Alternative visualization and mechanical breakdown of the universal joint assembly.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/jeep.mp4',
+                title: 'Mahindra Jeep',
+                description: 'A comprehensive 3D model of a Mahindra Jeep, meticulously designed with intricate details and realistic assembly in SolidWorks.',
+                software: ['SolidWorks'],
+                link: '#'
             }
         ]
     },
