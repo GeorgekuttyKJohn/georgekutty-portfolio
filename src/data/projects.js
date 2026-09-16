@@ -1,0 +1,217 @@
+export const projects = [
+    {
+        id: 'mechanical-design',
+        title: '3D Modeling & Mechanical Design',
+        category: '3D Modeling & Mechanical Design',
+        img: '/mechanical-design-premium.png',
+        description: 'Comprehensive mechanical engineering portfolio showcasing expertise in 3D modeling, simulation, and industrial design. Projects range from automotive components to robotic systems.',
+        technologies: ['SolidWorks', 'Fusion 360', 'AutoCAD', 'Ansys', 'Keyshot'],
+        gallery: [
+            {
+                type: 'video',
+                src: '/Assem1.mp4',
+                title: '4-Cylinder Engine Assembly',
+                description: 'A detailed 3D assembly animation of a 4-cylinder engine, showcasing the internal mechanism, piston movement, and crankshaft operation.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/universal joint.mp4',
+                title: 'Universal Joint',
+                description: 'A precision-engineered 3D model and animation of a universal joint assembly, demonstrating shaft power transmission at varying angles.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/ucj .mp4',
+                title: 'Universal Joint',
+                description: 'Alternative visualization and mechanical breakdown of the universal joint assembly.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/jeep.mp4',
+                title: 'Mahindra Jeep',
+                description: 'A comprehensive 3D model of a Mahindra Jeep, meticulously designed with intricate details and realistic assembly in SolidWorks.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/laptop.jpeg',
+                title: 'Laptop Model',
+                description: 'A precision-modeled laptop showcasing detailed industrial design and component assembly.',
+                software: ['SolidWorks', 'Keyshot'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/stairecase.png',
+                title: 'Industrial Staircase Assembly',
+                description: 'A custom-designed multi-level industrial staircase and platform structure modeled using SolidWorks weldments.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/tajmahal.png',
+                title: 'Taj Mahal in Glass Dome',
+                description: 'A detailed 3D CAD representation of the Taj Mahal monument enclosed inside a glass dome structure, modeled in SolidWorks.',
+                software: ['SolidWorks'],
+                link: '#'
+            }
+        ]
+    },
+    {
+        id: 'web-design',
+        title: 'Web Design',
+        category: 'Web Design',
+        img: 'https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1-&auto=format&fit=crop&w=800&q=80',
+        description: 'Modern web development projects focusing on responsive design, interactive user interfaces, and full-stack functionality.',
+        technologies: ['React', 'Next.js', 'Tailwind CSS', 'Node.js', 'MongoDB'],
+        gallery: [
+            {
+                type: 'image',
+                src: '/money-manager-thumb.png',
+                title: 'Money Manager',
+                description: 'A comprehensive finance tracking application helping users manage expenses and income with intuitive visualizations.',
+                software: ['React', 'Vercel'],
+                link: 'https://money-manager-neon.vercel.app/'
+            },
+            {
+                type: 'image',
+                src: '/todo-app-thumb.png',
+                title: 'Todoo App',
+                description: 'A clean and efficient task management application with local storage persistence and priority sorting.',
+                software: ['JavaScript', 'HTML/CSS', 'GitHub Pages'],
+                link: 'https://georgekuttykjohn.github.io/Todoo-App/'
+            },
+            {
+                type: 'image',
+                src: '/netflix-clone-thumb.png',
+                title: 'Netflix Clone',
+                description: 'A faithful recreation of the Netflix UI, featuring movie browsing, trailers, and responsive layout.',
+                software: ['React', 'TMDB API', 'CSS'],
+                link: 'https://netflix-clone-iota-orpin-52.vercel.app/'
+            },
+            {
+                type: 'image',
+                src: '/learnify-thumb.png',
+                title: 'Learnify E-Learning',
+                description: 'An educational platform interface designed for course discovery and student engagement.',
+                software: ['React', 'Vercel', 'UI/UX'],
+                link: 'https://learnify-e-learning.vercel.app/'
+            }
+        ]
+    },
+    {
+        id: 'creative-media',
+        title: 'Photography & Videography',
+        category: 'Photography & Videography',
+        img: '/photography-thumb.png',
+        description: 'Visual storytelling through professional photography and videography. Capturing moments with artistic composition and high-end production quality.',
+        technologies: ['Adobe Creative Suite', 'DaVinci Resolve', 'Sony Alpha Chains'],
+        gallery: [
+            {
+                type: 'image',
+                src: '/procession.jpg',
+                title: 'Pala Jubilee',
+                description: 'Vibrant capture of a cultural procession, highlighting the intricate details of the umbrella and the serene expression of the statue.',
+                software: ['Nothing Phone (2a)', 'Lightroom'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/clock-tower-1.jpg',
+                title: 'Mattanchery Synagogue',
+                description: 'A low-angle shot of a historic clock tower against a clear blue sky, emphasizing the architectural geometry.',
+                software: ['Nothing Phone (2a)', 'Lightroom'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/church-night.jpg',
+                title: 'Pala Kurisupalli',
+                description: 'A towering church illuminated against the night sky, showcasing the dramatic lighting and verticality of the structure.',
+                software: ['Nothing Phone (2a)', 'Lightroom'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/welding.jpg',
+                title: 'Industrial Spark',
+                description: 'Action shot of a welder at work, capturing the intense light and sparks of the fabrication process.',
+                software: ['Nothing Phone (2a)', 'Lightroom'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/clock-tower-2.jpg',
+                title: 'Architecture & Nature',
+                description: 'Framing the clock tower through vibrant bougainvillea flowers, creating a contrast between the aged structure and fresh nature.',
+                software: ['Nothing Phone (2a)', 'Lightroom'],
+                link: '#'
+            },
+
+            {
+                type: 'video',
+                src: '/Connection.b433a8099f4f5bb601e3.mp4',
+                title: 'Connection',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/FIGHT.f11f34d912d4457afe14.mp4',
+                title: 'FIGHT',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/Makeasmile.4294bcfef4f6cdc6540f.mp4',
+                title: 'Make a Smile',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/MusiccanchangeEmotions.21c0b610825eeda2d9b4.mp4',
+                title: 'Music Can Change Emotions',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/TakeaPicture.3ebd2a805b534e18729f.mp4',
+                title: 'Take a Picture',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/WEWILLMEETAGAIN.df9c43d85df54df5f150.mp4',
+                title: 'We Will Meet Again',
+                description: '',
+                software: [],
+                link: '#'
+            },
+            {
+                type: 'video',
+                src: '/sible sir.mp4',
+                title: 'Sible Sir',
+                description: 'A creative videography project showcasing cinematic storytelling and visual editing.',
+                software: ['DaVinci Resolve'],
+                link: '#'
+            }
+        ]
+    },
+];

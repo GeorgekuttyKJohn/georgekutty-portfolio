@@ -1,0 +1,295 @@
+.resume-section {
+    background-color: var(--card-bg);
+    color: #fff;
+}
+
+.resume-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.resume-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.resume-title {
+    font-size: 1rem;
+    color: var(--accent-color);
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Skills */
+.software-icons-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.software-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    min-width: 90px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.software-icon-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+.software-icon-item span {
+    font-size: 0.7rem;
+    margin-top: 10px;
+    color: var(--secondary-text);
+    text-align: center;
+}
+
+.software-icon-item:hover span {
+    color: #fff;
+}
+
+.skill-item {
+    margin-bottom: 15px;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.skill-bar-bg {
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    position: relative;
+}
+
+.skill-bar-fill {
+    height: 100%;
+    background-color: #fff;
+    position: relative;
+}
+
+.skill-circle {
+    width: 10px;
+    height: 10px;
+    background-color: var(--card-bg);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    position: absolute;
+    right: -5px;
+    top: -4px;
+}
+
+/* Timeline */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--timeline-line);
+}
+
+.timeline-item {
+    display: flex;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.timeline-marker {
+    position: relative;
+    width: 60px;
+    /* Space for dots */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline-year {
+    position: absolute;
+    left: -80px;
+    /* Move year to left of dot if layout permits, or above */
+    /* For this layout I will put year inside the bubble or next to it. 
+     The design shows year in a blue circle/bubble. 
+     Let's adjust.
+  */
+    display: none;
+    /* Hiding for simple list view, or we can make it a circle */
+}
+
+/* Re-styling timeline to match image better: Blue circle with date inside? 
+   Actually the image shows a vertical line with blue dots. 
+   And date/role next to it.
+   Let's just do blue dots with year inside? No, year is usually text.
+   Wait, the image has:
+   [2017-present] (in blue circle) -> White Fish Advertising Co. (Text)
+*/
+
+.timeline-marker .timeline-dot {
+    width: 12px;
+    height: 12px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 0 0 0 4px var(--card-bg);
+    /* varying border */
+}
+
+/* Actually, let's make the year a small badge */
+.timeline-item {
+    padding-left: 40px;
+    /* Space for line */
+}
+
+.timeline::before {
+    left: 5px;
+    /* Line position */
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12px;
+}
+
+.timeline-content {
+    padding-left: 10px;
+}
+
+.timeline-title {
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.timeline-subtitle {
+    font-size: 0.85rem;
+    color: var(--secondary-text);
+    margin-bottom: 5px;
+}
+
+.timeline-year-text {
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    margin-bottom: 2px;
+    display: block;
+}
+
+/* Overriding timeline HTML structure in CSS (or just accepting the JS simplified one) 
+   I used a simplified structure in JSX. Let's fix the CSS to work with it.
+*/
+
+
+.timeline-year {
+    /* This is the badge */
+    background: var(--accent-color);
+    color: #000;
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    border-radius: 4px;
+    width: fit-content;
+    margin-bottom: 5px;
+    position: absolute;
+    left: -90px;
+    text-align: right;
+    width: 80px;
+}
+
+.timeline-dot {
+    /* Dot on the line */
+    position: absolute;
+    left: 0;
+    top: 5px;
+}
+
+.timeline-content {
+    margin-left: 20px;
+}
+
+/* Education */
+.education-item {
+    color: var(--secondary-text);
+}
+
+.edu-degree {
+    color: #fff;
+    font-weight: 600;
+}
+
+.personal-skills-list {
+    list-style: none;
+    padding: 0;
+}
+
+.personal-skills-list li {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.personal-skills-list li::before {
+    content: '•';
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* Info blocks */
+.info-block p {
+    line-height: 1.8;
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+}
+
+/* Hobbies */
+.hobbies-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.hobby-item {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: var(--secondary-text);
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.hobby-item:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+@media (max-width: 900px) {
+    .resume-grid {
+        grid-template-columns: 1fr;
+    }
+}
