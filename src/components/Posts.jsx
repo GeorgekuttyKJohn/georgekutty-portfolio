@@ -12,6 +12,25 @@ function getDirectImageUrl(url) {
     return url;
 }
 
+// Extract all valid image URLs from a post row (supports comma-separated URLs or Image URL 2 column)
+function getPostImages(post) {
+    if (!post) return [];
+    const urls = [];
+    const possibleKeys = ['Image URL', 'Image URL 1', 'Image URL 2', 'Image 1', 'Image 2', 'Image', 'Images'];
+    possibleKeys.forEach(key => {
+        if (post[key]) {
+            // Split on comma or newline to support multiple URLs in one cell
+            const parts = post[key].split(/[\r\n,]+/).map(s => s.trim()).filter(Boolean);
+            parts.forEach(u => {
+                if (u.startsWith('http') && !urls.includes(u)) {
+                    urls.push(u);
+                }
+            });
+        }
+    });
+    return urls;
+}
+
 // Google Sheets published CSV URL
 const SHEET_CSV_URL =
     'https://docs.google.com/spreadsheets/d/e/2PACX-1vQvX_lm8YZBNYnkV6JK5nSJq2pm0ma0pdavx5EbpDhbGe1Al6hfVdTnHrsrXYnCEhtCK6sv9FiXDPmT/pub?output=csv';
@@ -203,19 +222,42 @@ const Posts = () => {
                                     title="Click to view full post"
                                 >
                                     {/* Image */}
-                                    {post['Image URL'] && post['Image URL'].startsWith('http') ? (
-                                        <div className="post-card-image">
-                                            <img
-                                                src={getDirectImageUrl(post['Image URL'])}
-                                                alt="Post media"
-                                                onError={e => { e.target.parentElement.style.display = 'none'; }}
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="post-card-image post-card-image--placeholder">
-                                            <FaLinkedin size={32} />
-                                        </div>
-                                    )}
+                                    {(() => {
+                                        const cardImages = getPostImages(post);
+                                        if (cardImages.length === 0) {
+                                            return (
+                                                <div className="post-card-image post-card-image--placeholder">
+                                                    <FaLinkedin size={32} />
+                                                </div>
+                                            );
+                                        }
+                                        if (cardImages.length === 1) {
+                                            return (
+                                                <div className="post-card-image">
+                                                    <img
+                                                        src={getDirectImageUrl(cardImages[0])}
+                                                        alt="Post media"
+                                                        onError={e => { e.target.parentElement.style.display = 'none'; }}
+                                                    />
+                                                </div>
+                                            );
+                                        }
+                                        return (
+                                            <div className="post-card-image post-card-image--multi">
+                                                <div className="post-card-image-grid">
+                                                    {cardImages.slice(0, 2).map((imgUrl, imgIdx) => (
+                                                        <img
+                                                            key={imgIdx}
+                                                            src={getDirectImageUrl(imgUrl)}
+                                                            alt={`Post media ${imgIdx + 1}`}
+                                                            onError={e => { e.target.style.display = 'none'; }}
+                                                        />
+                                                    ))}
+                                                </div>
+                                                <span className="post-card-image-badge">{cardImages.length} Photos</span>
+                                            </div>
+                                        );
+                                    })()}
 
                                     {/* Body */}
                                     <div className="post-card-body">
@@ -317,16 +359,36 @@ const Posts = () => {
 
                         {/* Modal Body (Scrollable) */}
                         <div className="post-modal-body">
-                            {selectedPost['Image URL'] && selectedPost['Image URL'].startsWith('http') && (
-                                <div className="post-modal-image-wrap">
-                                    <img
-                                        src={getDirectImageUrl(selectedPost['Image URL'])}
-                                        alt="Post media enlarged"
-                                        className="post-modal-image"
-                                        onError={(e) => { e.target.parentElement.style.display = 'none'; }}
-                                    />
-                                </div>
-                            )}
+                            {(() => {
+                                const modalImages = getPostImages(selectedPost);
+                                if (modalImages.length === 0) return null;
+                                if (modalImages.length === 1) {
+                                    return (
+                                        <div className="post-modal-image-wrap">
+                                            <img
+                                                src={getDirectImageUrl(modalImages[0])}
+                                                alt="Post media enlarged"
+                                                className="post-modal-image"
+                                                onError={(e) => { e.target.parentElement.style.display = 'none'; }}
+                                            />
+                                        </div>
+                                    );
+                                }
+                                return (
+                                    <div className="post-modal-images-grid">
+                                        {modalImages.map((imgUrl, imgIdx) => (
+                                            <div className="post-modal-image-wrap" key={imgIdx}>
+                                                <img
+                                                    src={getDirectImageUrl(imgUrl)}
+                                                    alt={`Post media enlarged ${imgIdx + 1}`}
+                                                    className="post-modal-image"
+                                                    onError={(e) => { e.target.parentElement.style.display = 'none'; }}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                );
+                            })()}
                             <div className="post-modal-caption">
                                 {selectedPost['Content']}
                             </div>
