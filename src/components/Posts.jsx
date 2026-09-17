@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { FaLinkedin, FaChevronLeft, FaChevronRight, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaLinkedin, FaChevronLeft, FaChevronRight, FaExternalLinkAlt, FaTimes } from 'react-icons/fa';
 import './Posts.css';
 
 // Convert Google Drive share URL to direct image URL
@@ -59,8 +59,28 @@ const Posts = () => {
     const [error, setError] = useState(false);
     const [current, setCurrent] = useState(0);
     const [cardWidth, setCardWidth] = useState(0);
+    const [selectedPost, setSelectedPost] = useState(null);
     const trackRef = useRef(null);
     const cardRef = useRef(null);
+
+    const closeModal = () => setSelectedPost(null);
+
+    // Escape key listener & body scroll locking when modal is open
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') closeModal();
+        };
+        if (selectedPost) {
+            document.body.style.overflow = 'hidden';
+            window.addEventListener('keydown', handleKeyDown);
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [selectedPost]);
 
     useEffect(() => {
         fetch(SHEET_CSV_URL)
@@ -90,7 +110,6 @@ const Posts = () => {
     useEffect(() => {
         const measure = () => {
             if (cardRef.current) {
-                const style = window.getComputedStyle(cardRef.current);
                 const gap = 18;
                 setCardWidth(cardRef.current.offsetWidth + gap);
             }
@@ -168,7 +187,21 @@ const Posts = () => {
                                 style={{ transform: `translateX(-${current * (cardWidth || 0)}px)` }}
                             >
                             {posts.map((post, i) => (
-                                <div className="post-card" key={post.id} ref={i === 0 ? cardRef : null}>
+                                <div
+                                    className="post-card"
+                                    key={post.id}
+                                    ref={i === 0 ? cardRef : null}
+                                    onClick={() => setSelectedPost(post)}
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            setSelectedPost(post);
+                                        }
+                                    }}
+                                    title="Click to view full post"
+                                >
                                     {/* Image */}
                                     {post['Image URL'] && post['Image URL'].startsWith('http') ? (
                                         <div className="post-card-image">
@@ -187,6 +220,7 @@ const Posts = () => {
                                     {/* Body */}
                                     <div className="post-card-body">
                                         <p className="post-card-caption">{post['Content']}</p>
+                                        <span className="post-card-readmore">Read more →</span>
                                     </div>
 
                                     {/* Footer */}
@@ -199,6 +233,7 @@ const Posts = () => {
                                                 rel="noopener noreferrer"
                                                 className="post-card-link"
                                                 title="View on LinkedIn"
+                                                onClick={(e) => e.stopPropagation()}
                                             >
                                                 View <FaExternalLinkAlt size={10} />
                                             </a>
@@ -248,6 +283,78 @@ const Posts = () => {
                     </a>
                 </div>
             </div>
+
+            {/* Post Enlarged Detail Modal */}
+            {selectedPost && (
+                <div
+                    className="post-modal-backdrop"
+                    onClick={closeModal}
+                    role="dialog"
+                    aria-modal="true"
+                >
+                    <div
+                        className="post-modal-container"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Modal Header */}
+                        <div className="post-modal-header">
+                            <div className="post-modal-meta">
+                                <span className="linkedin-badge">
+                                    <FaLinkedin /> LinkedIn Post
+                                </span>
+                                {selectedPost['Date'] && (
+                                    <span className="post-modal-date">{selectedPost['Date']}</span>
+                                )}
+                            </div>
+                            <button
+                                className="post-modal-close-icon"
+                                onClick={closeModal}
+                                aria-label="Close modal"
+                            >
+                                <FaTimes size={18} />
+                            </button>
+                        </div>
+
+                        {/* Modal Body (Scrollable) */}
+                        <div className="post-modal-body">
+                            {selectedPost['Image URL'] && selectedPost['Image URL'].startsWith('http') && (
+                                <div className="post-modal-image-wrap">
+                                    <img
+                                        src={getDirectImageUrl(selectedPost['Image URL'])}
+                                        alt="Post media enlarged"
+                                        className="post-modal-image"
+                                        onError={(e) => { e.target.parentElement.style.display = 'none'; }}
+                                    />
+                                </div>
+                            )}
+                            <div className="post-modal-caption">
+                                {selectedPost['Content']}
+                            </div>
+                        </div>
+
+                        {/* Modal Footer */}
+                        <div className="post-modal-footer">
+                            {selectedPost['Post Link'] && (
+                                <a
+                                    href={selectedPost['Post Link']}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn btn-primary post-modal-link-btn"
+                                >
+                                    <FaLinkedin size={15} /> View on LinkedIn <FaExternalLinkAlt size={11} />
+                                </a>
+                            )}
+                            <button
+                                type="button"
+                                className="post-modal-close-btn"
+                                onClick={closeModal}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 };
