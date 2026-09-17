@@ -267,6 +267,69 @@
     gap: 7px;
 }
 
+.post-card-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ── Like Button ──────────────────────────────── */
+.post-like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd5e1;
+    border-radius: 18px;
+    padding: 3px 10px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.post-like-btn:hover {
+    background: rgba(239, 68, 68, 0.14);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #f87171;
+    transform: scale(1.05);
+}
+
+.post-like-btn.liked {
+    background: rgba(239, 68, 68, 0.18);
+    border-color: rgba(239, 68, 68, 0.55);
+    color: #ef4444;
+}
+
+.post-like-btn .heart-icon {
+    transition: transform 0.2s ease;
+}
+
+.post-like-btn .heart-icon.liked {
+    animation: heartPop 0.35s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+}
+
+@keyframes heartPop {
+    0% { transform: scale(0.7); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+
+.post-like-btn .like-count {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.75rem;
+}
+
+/* Modal Like Button */
+.post-modal-like-btn {
+    padding: 9px 18px;
+    font-size: 0.86rem;
+    border-radius: 24px;
+    margin-right: auto;
+}
+
 /* ── Loading / Empty ──────────────────────────── */
 .posts-loading,
 .posts-empty {
@@ -567,10 +630,12 @@
     }
 
     .post-modal-link-btn,
-    .post-modal-close-btn {
+    .post-modal-close-btn,
+    .post-modal-like-btn {
         width: 100%;
         justify-content: center;
         text-align: center;
         padding: 11px;
+        margin-right: 0;
     }
 }

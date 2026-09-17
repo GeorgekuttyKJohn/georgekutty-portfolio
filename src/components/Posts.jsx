@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { FaLinkedin, FaChevronLeft, FaChevronRight, FaExternalLinkAlt, FaTimes } from 'react-icons/fa';
+import { FaLinkedin, FaChevronLeft, FaChevronRight, FaExternalLinkAlt, FaTimes, FaHeart, FaRegHeart } from 'react-icons/fa';
 import './Posts.css';
 
 // Convert Google Drive share URL to direct image URL
@@ -10,6 +10,18 @@ function getDirectImageUrl(url) {
     const driveOpen = url.match(/drive\.google\.com\/open\?id=([^&]+)/);
     if (driveOpen) return `https://drive.google.com/uc?export=view&id=${driveOpen[1]}`;
     return url;
+}
+
+// Generate stable unique key for each post (for serverless global like count)
+function getPostKey(post) {
+    if (!post) return '';
+    const raw = (post['Date'] || '') + '_' + (post['Content'] || '').slice(0, 35);
+    let hash = 0;
+    for (let i = 0; i < raw.length; i++) {
+        hash = ((hash << 5) - hash) + raw.charCodeAt(i);
+        hash |= 0;
+    }
+    return `gk_post_${Math.abs(hash)}`;
 }
 
 // Extract all valid image URLs from a post row (supports comma-separated URLs or Image URL 2 column)
@@ -79,6 +91,15 @@ const Posts = () => {
     const [current, setCurrent] = useState(0);
     const [cardWidth, setCardWidth] = useState(0);
     const [selectedPost, setSelectedPost] = useState(null);
+    const [likes, setLikes] = useState({});
+    const [userLiked, setUserLiked] = useState(() => {
+        try {
+            const stored = localStorage.getItem('gk_user_liked_posts');
+            return stored ? JSON.parse(stored) : [];
+        } catch {
+            return [];
+        }
+    });
     const trackRef = useRef(null);
     const cardRef = useRef(null);
 
@@ -100,6 +121,49 @@ const Posts = () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [selectedPost]);
+
+    // Fetch live like counts for all loaded posts
+    useEffect(() => {
+        if (posts.length === 0) return;
+        posts.forEach(post => {
+            const key = getPostKey(post);
+            fetch(`https://countapi.mileshilliard.com/api/v1/get/${key}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && typeof data.value === 'number') {
+                        setLikes(prev => ({ ...prev, [key]: data.value }));
+                    }
+                })
+                .catch(() => {});
+        });
+    }, [posts]);
+
+    // Handle like click (optimistic update + serverless count API hit)
+    const handleLike = (post, e) => {
+        if (e) e.stopPropagation();
+        const key = getPostKey(post);
+        const isAlreadyLiked = userLiked.includes(key);
+
+        if (isAlreadyLiked) return; // Prevent multiple likes by same user
+
+        // Optimistic UI update
+        setLikes(prev => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
+        const newLiked = [...userLiked, key];
+        setUserLiked(newLiked);
+        try {
+            localStorage.setItem('gk_user_liked_posts', JSON.stringify(newLiked));
+        } catch {}
+
+        // Hit global count API
+        fetch(`https://countapi.mileshilliard.com/api/v1/hit/${key}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data && typeof data.value === 'number') {
+                    setLikes(prev => ({ ...prev, [key]: data.value }));
+                }
+            })
+            .catch(() => {});
+    };
 
     useEffect(() => {
         fetch(SHEET_CSV_URL)
@@ -268,18 +332,37 @@ const Posts = () => {
                                     {/* Footer */}
                                     <div className="post-card-footer">
                                         {post['Date'] && <span className="post-card-date">{post['Date']}</span>}
-                                        {post['Post Link'] && (
-                                            <a
-                                                href={post['Post Link']}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="post-card-link"
-                                                title="View on LinkedIn"
-                                                onClick={(e) => e.stopPropagation()}
-                                            >
-                                                View <FaExternalLinkAlt size={10} />
-                                            </a>
-                                        )}
+                                        <div className="post-card-footer-actions">
+                                            {(() => {
+                                                const pKey = getPostKey(post);
+                                                const isLiked = userLiked.includes(pKey);
+                                                const count = likes[pKey] || 0;
+                                                return (
+                                                    <button
+                                                        type="button"
+                                                        className={`post-like-btn ${isLiked ? 'liked' : ''}`}
+                                                        onClick={(e) => handleLike(post, e)}
+                                                        title={isLiked ? 'You liked this post' : 'Like this post'}
+                                                        aria-label="Like post"
+                                                    >
+                                                        {isLiked ? <FaHeart className="heart-icon liked" size={13} /> : <FaRegHeart className="heart-icon" size={13} />}
+                                                        <span className="like-count">{count}</span>
+                                                    </button>
+                                                );
+                                            })()}
+                                            {post['Post Link'] && (
+                                                <a
+                                                    href={post['Post Link']}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="post-card-link"
+                                                    title="View on LinkedIn"
+                                                    onClick={(e) => e.stopPropagation()}
+                                                >
+                                                    View <FaExternalLinkAlt size={10} />
+                                                </a>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -396,6 +479,23 @@ const Posts = () => {
 
                         {/* Modal Footer */}
                         <div className="post-modal-footer">
+                            {(() => {
+                                const pKey = getPostKey(selectedPost);
+                                const isLiked = userLiked.includes(pKey);
+                                const count = likes[pKey] || 0;
+                                return (
+                                    <button
+                                        type="button"
+                                        className={`post-like-btn post-modal-like-btn ${isLiked ? 'liked' : ''}`}
+                                        onClick={(e) => handleLike(selectedPost, e)}
+                                        title={isLiked ? 'You liked this post' : 'Like this post'}
+                                        aria-label="Like post"
+                                    >
+                                        {isLiked ? <FaHeart className="heart-icon liked" size={15} /> : <FaRegHeart className="heart-icon" size={15} />}
+                                        <span>{count} {count === 1 ? 'Like' : 'Likes'}</span>
+                                    </button>
+                                );
+                            })()}
                             {selectedPost['Post Link'] && (
                                 <a
                                     href={selectedPost['Post Link']}
