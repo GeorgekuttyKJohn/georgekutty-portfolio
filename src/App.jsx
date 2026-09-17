@@ -5,12 +5,14 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Resume from './components/Resume';
 import Portfolio from './components/Portfolio';
+import Posts from './components/Posts';
 import Contact from './components/Contact';
 import ProjectDetail from './components/ProjectDetail';
 import Footer from './components/Footer';
 
 import FloatingBackground from './components/FloatingBackground';
 import ScrollToHash from './components/ScrollToHash';
+
 
 const HomePage = () => (
   <>
@@ -25,6 +27,9 @@ const HomePage = () => (
     </div>
     <div id="portfolio">
       <Portfolio />
+    </div>
+    <div id="posts">
+      <Posts />
     </div>
     <div id="contact">
       <Contact />

@@ -290,6 +290,23 @@
 
 @media (max-width: 900px) {
     .resume-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .resume-grid {
         grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .software-icon-item {
+        min-width: 75px;
+        padding: 8px;
+    }
+
+    .hobbies-grid {
+        grid-template-columns: 1fr 1fr;
     }
 }

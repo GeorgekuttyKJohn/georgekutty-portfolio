@@ -108,3 +108,29 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-color);
 }
+
+/* ── Mobile Responsive (Global) ──────────────── */
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 60px 16px;
+    --nav-height: 65px;
+  }
+
+  .section-title {
+    font-size: 1.8rem !important;
+  }
+
+  .section {
+    min-height: unset;
+    padding: var(--section-padding);
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .btn {
+    padding: 10px 22px;
+    font-size: 0.85rem;
+  }
+}

@@ -23,6 +23,7 @@ const Navbar = () => {
                     <a href={getNavLink('about')}>About</a>
                     <a href={getNavLink('resume')}>Resume</a>
                     <a href={getNavLink('portfolio')}>Portfolio</a>
+                    <a href={getNavLink('posts')}>Posts</a>
                     <a href={getNavLink('contact')}>Contact</a>
                 </div>
 
@@ -37,6 +38,7 @@ const Navbar = () => {
                     <a href={getNavLink('about')} onClick={toggleMenu}>About</a>
                     <a href={getNavLink('resume')} onClick={toggleMenu}>Resume</a>
                     <a href={getNavLink('portfolio')} onClick={toggleMenu}>Portfolio</a>
+                    <a href={getNavLink('posts')} onClick={toggleMenu}>Posts</a>
                     <a href={getNavLink('contact')} onClick={toggleMenu}>Contact</a>
                 </div>
             </div>
