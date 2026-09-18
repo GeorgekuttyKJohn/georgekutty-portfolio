@@ -1,34 +1,32 @@
 .scroll-car-container {
     position: fixed;
-    bottom: 0;
+    bottom: 14px;
     left: 0;
     width: 100%;
     max-width: 100vw;
     height: 48px;
     pointer-events: none;
     z-index: 999;
-    overflow: hidden;
+    /* Never clip vertically - allows full car height to display regardless of viewport changes */
+    overflow-x: clip;
+    overflow-y: visible;
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* When portfolio modal is open or container is hidden, car disappears cleanly */
+/* Hide cleanly when portfolio modal is open without vertical translation offsets */
 body.portfolio-modal-open .scroll-car-container,
 .scroll-car-container.is-hidden {
     opacity: 0 !important;
     visibility: hidden !important;
-    transform: translateY(18px) !important;
     pointer-events: none !important;
 }
 
-/* Subtle modern road line with safe-area support */
+/* Subtle modern road line */
 .scroll-road {
     position: absolute;
-    bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+    bottom: 2px;
     left: 0;
     width: 100%;
     height: 2px;
@@ -46,13 +44,14 @@ body.portfolio-modal-open .scroll-car-container,
 /* Car wrapper moving across the screen */
 .scroll-car-wrapper {
     position: absolute;
-    bottom: calc(5px + env(safe-area-inset-bottom, 0px));
+    bottom: 3px;
     left: 0;
     transform: translate3d(-100px, 0, 0);
     will-change: transform;
     display: inline-flex;
     align-items: flex-end;
     pointer-events: none;
+    overflow: visible;
 }
 
 /* Very subtle suspension bounce when actively driving */
@@ -65,42 +64,49 @@ body.portfolio-modal-open .scroll-car-container,
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-1.2px);
+        transform: translateY(-1.5px);
     }
 }
 
-/* Desktop car image size */
+/* Desktop car image size with strict aspect-ratio */
 .scroll-car-img {
-    width: 68px;
+    width: 66px;
     height: auto;
+    aspect-ratio: 766 / 397;
+    object-fit: contain;
     display: block;
     user-select: none;
     -webkit-user-drag: none;
     filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.55));
-    transition: transform 0.15s ease;
 }
 
 /* Headlight beam */
 .car-headlight-beam {
     position: absolute;
-    right: -26px;
-    bottom: 5px;
-    width: 32px;
-    height: 14px;
+    right: -24px;
+    bottom: 4px;
+    width: 30px;
+    height: 12px;
     background: linear-gradient(to right, rgba(255, 245, 200, 0.4), transparent);
     clip-path: polygon(0% 40%, 100% 0%, 100% 100%, 0% 60%);
     pointer-events: none;
     opacity: 0.85;
 }
 
-/* Subtle exhaust puffs */
+/* Exhaust smoke puffs - hidden by default, visible only while actively driving */
 .car-exhaust-smoke {
     position: absolute;
     left: -4px;
-    bottom: 5px;
+    bottom: 4px;
     width: 14px;
     height: 10px;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.scroll-car-wrapper.is-driving .car-exhaust-smoke {
+    opacity: 1;
 }
 
 .smoke-puff {
@@ -139,7 +145,8 @@ body.portfolio-modal-open .scroll-car-container,
 /* Tablet screens (<= 768px) */
 @media (max-width: 768px) {
     .scroll-car-container {
-        height: 40px;
+        bottom: 12px;
+        height: 42px;
     }
 
     .scroll-car-img {
@@ -147,52 +154,38 @@ body.portfolio-modal-open .scroll-car-container,
     }
 
     .scroll-car-wrapper {
-        bottom: calc(4px + env(safe-area-inset-bottom, 0px));
-    }
-
-    .scroll-road {
-        bottom: calc(3px + env(safe-area-inset-bottom, 0px));
-        height: 2px;
+        bottom: 3px;
     }
 
     .car-headlight-beam {
-        width: 22px;
-        right: -18px;
+        width: 20px;
+        right: -16px;
         height: 10px;
-        bottom: 4px;
-    }
-
-    .car-exhaust-smoke {
-        left: -3px;
-        bottom: 4px;
+        bottom: 3px;
     }
 }
 
 /* Mobile Phones (<= 480px) */
 @media (max-width: 480px) {
     .scroll-car-container {
-        height: 34px;
+        bottom: 12px;
+        height: 38px;
     }
 
     .scroll-car-img {
-        width: 42px;
+        width: 44px;
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65));
     }
 
     .scroll-car-wrapper {
-        bottom: calc(3px + env(safe-area-inset-bottom, 0px));
-    }
-
-    .scroll-road {
-        bottom: calc(2px + env(safe-area-inset-bottom, 0px));
-        height: 1.5px;
+        bottom: 3px;
     }
 
     .car-headlight-beam {
-        width: 18px;
-        right: -14px;
+        width: 16px;
+        right: -13px;
         height: 8px;
-        bottom: 3px;
+        bottom: 2px;
         opacity: 0.75;
     }
 
@@ -200,6 +193,6 @@ body.portfolio-modal-open .scroll-car-container,
         transform: scale(0.7);
         transform-origin: bottom right;
         left: -2px;
-        bottom: 3px;
+        bottom: 2px;
     }
 }

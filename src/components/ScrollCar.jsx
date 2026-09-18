@@ -4,12 +4,24 @@ import './ScrollCar.css';
 const ScrollCar = () => {
     const carRef = useRef(null);
     const progressTrackRef = useRef(null);
-    const [isDriving, setIsDriving] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const scrollTimeoutRef = useRef(null);
 
     useEffect(() => {
         let animationFrameId;
+        let isDrivingActive = false;
+
+        const setDriving = (driving) => {
+            if (isDrivingActive === driving) return;
+            isDrivingActive = driving;
+            if (carRef.current) {
+                if (driving) {
+                    carRef.current.classList.add('is-driving');
+                } else {
+                    carRef.current.classList.remove('is-driving');
+                }
+            }
+        };
 
         const updatePosition = () => {
             const scrollTop = Math.max(
@@ -30,12 +42,12 @@ const ScrollCar = () => {
             const trackEl = progressTrackRef.current;
 
             if (carEl) {
-                const carWidth = carEl.offsetWidth || 50;
+                const carWidth = carEl.offsetWidth || 46;
                 const viewportWidth = document.documentElement.clientWidth || window.innerWidth || 360;
 
                 // Starts just outside left edge, reaches and exits right edge at bottom of page
-                const startX = -carWidth - 10;
-                const endX = viewportWidth + 10;
+                const startX = -carWidth - 8;
+                const endX = viewportWidth + 8;
                 const currentX = startX + progress * (endX - startX);
 
                 carEl.style.transform = `translate3d(${currentX}px, 0, 0)`;
@@ -47,13 +59,13 @@ const ScrollCar = () => {
         };
 
         const onScroll = () => {
-            setIsDriving(true);
+            setDriving(true);
             if (scrollTimeoutRef.current) {
                 clearTimeout(scrollTimeoutRef.current);
             }
             scrollTimeoutRef.current = setTimeout(() => {
-                setIsDriving(false);
-            }, 160);
+                setDriving(false);
+            }, 180);
 
             if (animationFrameId) {
                 cancelAnimationFrame(animationFrameId);
@@ -76,14 +88,14 @@ const ScrollCar = () => {
 
         observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
-        // Standard and touch scroll listeners for high mobile responsiveness
+        // Touch & scroll listeners for smooth 60/120fps tracking
         window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('touchmove', onScroll, { passive: true });
         window.addEventListener('touchend', onScroll, { passive: true });
         window.addEventListener('resize', onResize, { passive: true });
         window.addEventListener('orientationchange', onResize, { passive: true });
 
-        // Initial setup and delayed recheck for late-loading content
+        // Initial positions and fallbacks for dynamic image loading
         updatePosition();
         const timer1 = setTimeout(updatePosition, 150);
         const timer2 = setTimeout(updatePosition, 600);
@@ -115,12 +127,12 @@ const ScrollCar = () => {
             {/* Moving Car Element */}
             <div
                 ref={carRef}
-                className={`scroll-car-wrapper ${isDriving ? 'is-driving' : ''}`}
+                className="scroll-car-wrapper"
             >
                 {/* Soft ambient headlight glow */}
                 <div className="car-headlight-beam" />
 
-                {/* Car Image */}
+                {/* Car Image - guaranteed aspect ratio */}
                 <img
                     src="/car.png"
                     alt=""
@@ -128,13 +140,11 @@ const ScrollCar = () => {
                     draggable="false"
                 />
 
-                {/* Micro exhaust puffs while moving */}
-                {isDriving && (
-                    <div className="car-exhaust-smoke">
-                        <span className="smoke-puff p1" />
-                        <span className="smoke-puff p2" />
-                    </div>
-                )}
+                {/* Exhaust puffs controlled by CSS class */}
+                <div className="car-exhaust-smoke">
+                    <span className="smoke-puff p1" />
+                    <span className="smoke-puff p2" />
+                </div>
             </div>
         </div>
     );
