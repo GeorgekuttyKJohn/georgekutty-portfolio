@@ -150,6 +150,7 @@ const Resume = () => {
                             <div className="hobby-item">Video Editing</div>
                             <div className="hobby-item">Content creation</div>
                             <div className="hobby-item">Meme creation</div>
+                            <div className="hobby-item">Die-cast Model Collecting</div>
                         </div>
                     </div>
 

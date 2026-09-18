@@ -283,6 +283,10 @@
     transition: 0.3s;
 }
 
+.hobbies-grid .hobby-item:last-child:nth-child(odd) {
+    grid-column: span 2;
+}
+
 .hobby-item:hover {
     border-color: var(--accent-color);
     color: var(--accent-color);
