@@ -1,0 +1,205 @@
+.scroll-car-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100vw;
+    height: 48px;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* When portfolio modal is open or container is hidden, car disappears cleanly */
+body.portfolio-modal-open .scroll-car-container,
+.scroll-car-container.is-hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(18px) !important;
+    pointer-events: none !important;
+}
+
+/* Subtle modern road line with safe-area support */
+.scroll-road {
+    position: absolute;
+    bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.scroll-road-progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, rgba(0, 180, 216, 0.2), #00b4d8);
+    box-shadow: 0 0 8px rgba(0, 180, 216, 0.7);
+    border-radius: 2px;
+}
+
+/* Car wrapper moving across the screen */
+.scroll-car-wrapper {
+    position: absolute;
+    bottom: calc(5px + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    transform: translate3d(-100px, 0, 0);
+    will-change: transform;
+    display: inline-flex;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+/* Very subtle suspension bounce when actively driving */
+.scroll-car-wrapper.is-driving .scroll-car-img {
+    animation: carSuspensionBounce 0.22s ease-in-out infinite alternate;
+}
+
+@keyframes carSuspensionBounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-1.2px);
+    }
+}
+
+/* Desktop car image size */
+.scroll-car-img {
+    width: 68px;
+    height: auto;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.55));
+    transition: transform 0.15s ease;
+}
+
+/* Headlight beam */
+.car-headlight-beam {
+    position: absolute;
+    right: -26px;
+    bottom: 5px;
+    width: 32px;
+    height: 14px;
+    background: linear-gradient(to right, rgba(255, 245, 200, 0.4), transparent);
+    clip-path: polygon(0% 40%, 100% 0%, 100% 100%, 0% 60%);
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+/* Subtle exhaust puffs */
+.car-exhaust-smoke {
+    position: absolute;
+    left: -4px;
+    bottom: 5px;
+    width: 14px;
+    height: 10px;
+    pointer-events: none;
+}
+
+.smoke-puff {
+    position: absolute;
+    background: rgba(200, 200, 200, 0.35);
+    border-radius: 50%;
+    animation: smokePuff 0.4s ease-out infinite;
+}
+
+.smoke-puff.p1 {
+    width: 5px;
+    height: 5px;
+    left: 0;
+    bottom: 1px;
+}
+
+.smoke-puff.p2 {
+    width: 7px;
+    height: 7px;
+    left: -4px;
+    bottom: 3px;
+    animation-delay: 0.18s;
+}
+
+@keyframes smokePuff {
+    0% {
+        transform: scale(0.6) translate(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1.6) translate(-10px, -4px);
+        opacity: 0;
+    }
+}
+
+/* Tablet screens (<= 768px) */
+@media (max-width: 768px) {
+    .scroll-car-container {
+        height: 40px;
+    }
+
+    .scroll-car-img {
+        width: 52px;
+    }
+
+    .scroll-car-wrapper {
+        bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .scroll-road {
+        bottom: calc(3px + env(safe-area-inset-bottom, 0px));
+        height: 2px;
+    }
+
+    .car-headlight-beam {
+        width: 22px;
+        right: -18px;
+        height: 10px;
+        bottom: 4px;
+    }
+
+    .car-exhaust-smoke {
+        left: -3px;
+        bottom: 4px;
+    }
+}
+
+/* Mobile Phones (<= 480px) */
+@media (max-width: 480px) {
+    .scroll-car-container {
+        height: 34px;
+    }
+
+    .scroll-car-img {
+        width: 42px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65));
+    }
+
+    .scroll-car-wrapper {
+        bottom: calc(3px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .scroll-road {
+        bottom: calc(2px + env(safe-area-inset-bottom, 0px));
+        height: 1.5px;
+    }
+
+    .car-headlight-beam {
+        width: 18px;
+        right: -14px;
+        height: 8px;
+        bottom: 3px;
+        opacity: 0.75;
+    }
+
+    .car-exhaust-smoke {
+        transform: scale(0.7);
+        transform-origin: bottom right;
+        left: -2px;
+        bottom: 3px;
+    }
+}

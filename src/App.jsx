@@ -12,10 +12,12 @@ import Footer from './components/Footer';
 
 import FloatingBackground from './components/FloatingBackground';
 import ScrollToHash from './components/ScrollToHash';
+import ScrollCar from './components/ScrollCar';
 
 
 const HomePage = () => (
   <>
+    <ScrollCar />
     <div id="home">
       <Hero />
     </div>

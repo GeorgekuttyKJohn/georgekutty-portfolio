@@ -13,12 +13,28 @@ const Portfolio = () => {
     useEffect(() => {
         if (selectedCategory) {
             document.body.style.overflow = 'hidden';
+            document.body.classList.add('portfolio-modal-open');
+
+            // Push history state so browser back button closes modal
+            window.history.pushState({ portfolioModal: true }, '');
+
+            const handlePopState = () => {
+                setSelectedCategory(null);
+                setSelectedProject(null);
+            };
+
+            window.addEventListener('popstate', handlePopState);
+            return () => {
+                window.removeEventListener('popstate', handlePopState);
+            };
         } else {
-            document.body.style.overflow = 'auto'; // Or '' to remove inline style
+            document.body.style.overflow = 'auto';
+            document.body.classList.remove('portfolio-modal-open');
         }
 
         return () => {
             document.body.style.overflow = 'auto';
+            document.body.classList.remove('portfolio-modal-open');
         };
     }, [selectedCategory]);
 
@@ -34,8 +50,12 @@ const Portfolio = () => {
     };
 
     const closeCategory = () => {
-        setSelectedCategory(null);
-        setSelectedProject(null);
+        if (window.history.state && window.history.state.portfolioModal) {
+            window.history.back();
+        } else {
+            setSelectedCategory(null);
+            setSelectedProject(null);
+        }
     };
 
     const openProject = (project) => {

@@ -21,7 +21,7 @@ const ProjectDetail = () => {
     return (
         <div className="project-detail">
             <div className="container">
-                <Link to="/" className="back-link">
+                <Link to="/#portfolio" className="back-link">
                     <ArrowLeft size={20} /> Back to Portfolio
                 </Link>
 
