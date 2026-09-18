@@ -13,8 +13,6 @@ const Hero = () => {
                         <span className="name-last">K John</span>
                     </h1>
                     <h2 className="hero-subtitle">Mechanical Engineer</h2>
-
-
                 </div>
             </div>
         </section>

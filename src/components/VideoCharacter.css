@@ -1,0 +1,83 @@
+/* ── Video Character Container ────────────────── */
+.video-character-container {
+    position: absolute;
+    bottom: 0;
+    right: 40px;
+    width: auto;
+    height: auto;
+    pointer-events: none;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.video-character-container.fading-out {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+/* Hidden Source Video */
+.video-character-source {
+    display: none;
+}
+
+/* Transparent Green/Blue Screen Canvas */
+.video-character-canvas {
+    height: 380px;
+    max-height: 50vh;
+    width: auto;
+    object-fit: contain;
+    pointer-events: none;
+    display: block;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.75));
+    animation: characterFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes characterFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 1024px) {
+    .video-character-container {
+        right: 25px;
+    }
+
+    .video-character-canvas {
+        height: 320px;
+        max-height: 44vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-character-container {
+        right: 15px;
+    }
+
+    .video-character-canvas {
+        height: 250px;
+        max-height: 38vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-character-container {
+        right: 5px;
+    }
+
+    .video-character-canvas {
+        height: 190px;
+        max-height: 32vh;
+    }
+}
