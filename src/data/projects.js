@@ -41,6 +41,126 @@ export const projects = [
             },
             {
                 type: 'image',
+                src: '/car-door.png',
+                title: 'Car Door Surface Modeling',
+                description: 'A detailed 3D surface model of an automotive car door designed using SolidWorks surface modeling techniques, focusing on aerodynamic contours and panel curvature.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/flanged-valve-elbow.png',
+                title: 'Flanged Elbow Pipe Fitting',
+                description: 'A robust 3D CAD model of an industrial flanged elbow fitting with mounting ports and bolt circles, designed for fluid transfer and piping systems.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/fluted-tumbler.png',
+                title: 'Spiral Fluted Tumbler',
+                description: 'A consumer product design of a decorative metal tumbler featuring spiral sweep fluting, ergonomic taper, and realistic material rendering.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/mechanical-linkage-arm.png',
+                title: 'Mechanical Linkage Arm',
+                description: 'A precision-engineered mechanical connecting link with dual bore pivots, designed for motion transfer and mechanism linkages.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/cylindrical-valve-mechanism.png',
+                title: 'Cylindrical Valve Assembly',
+                description: 'A detailed cross-functional assembly model of a cylindrical flow valve featuring internal piston guidance, port channels, and a transparent housing.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/water-pitcher-design.png',
+                title: 'Stainless Steel Water Pitcher',
+                description: 'An industrial design model of a beverage pitcher created using revolving and surface modeling features, complete with an ergonomic tubular handle and precision pour spout.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/aerodynamic-mirror-housing.png',
+                title: 'Aerodynamic Mirror Housing',
+                description: 'A sleek automotive side mirror shell created with complex Class-A surface modeling in SolidWorks, showcasing aerodynamic contours and indicator recesses.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/flanged-pipe-tee.png',
+                title: 'Flanged Pipe Tee Fitting',
+                description: 'A heavy-duty 3-way flanged tee junction pipe fitting modeled for industrial piping networks and high-pressure fluid flow distribution.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/cross-pipe-manifold.png',
+                title: '4-Way Cross Manifold Fitting',
+                description: 'A 4-way cross pipe manifold fitting with smooth blended fillets and equal multi-directional branching for pneumatic or hydraulic distribution.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/helical-spiral-sleeve.png',
+                title: 'Helical Spiral Sleeve',
+                description: 'A 3D model of an open-cage cylindrical sleeve featuring dual helical spiral struts and chamfered rim geometry, modeled in SolidWorks.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/ergonomic-ladle-surface.png',
+                title: 'Ergonomic Ladle Surface Design',
+                description: 'An organic consumer product design created using SolidWorks surface modeling, featuring a smooth curved bowl and contoured cylindrical handle.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/cosmetic-shampoo-bottle.png',
+                title: 'Cosmetic Shampoo Bottle',
+                description: 'A blow-molded consumer packaging design of a cosmetic bottle with an ergonomic curved profile, neck contour, and recessed labeling surface.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/transparent-spray-bottle.png',
+                title: 'Ergonomic Spray Bottle',
+                description: 'A 3D CAD model of a transparent household spray bottle featuring realistic plastic material transparency, threaded neck for nozzle attachment, and ergonomic body styling.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/lifting-eye-bolt.png',
+                title: 'Industrial Lifting Eye Fitting',
+                description: 'A heavy-duty forged-style lifting eye component designed in SolidWorks for rigging, crane hoisting, and structural tension anchoring.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/wooden-chess-king.png',
+                title: 'Classic Wooden Chess King',
+                description: 'A detailed 3D turned-wood model of a standard tournament-style Chess King piece complete with traditional cross finial and realistic mahogany grain texture.',
+                software: ['SolidWorks'],
+                link: '#'
+            },
+            {
+                type: 'image',
                 src: '/laptop.jpeg',
                 title: 'Laptop Model',
                 description: 'A precision-modeled laptop showcasing detailed industrial design and component assembly.',
