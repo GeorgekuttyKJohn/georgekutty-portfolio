@@ -40,6 +40,22 @@ export const projects = [
                 link: '#'
             },
             {
+                type: 'video',
+                src: '/cmf buds2.mp4',
+                title: 'CMF Buds 2',
+                description: 'A 3D product design and animation of CMF Buds 2, showcasing the intricate industrial design, case mechanics, and precision component detailing.',
+                software: ['SolidWorks', 'Keyshot'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/greenhouse-weldment.png',
+                title: 'Greenhouse Structure (Weldment)',
+                description: 'A structural greenhouse model designed in SolidWorks, engineered primarily using Weldment structural members and glass panel enclosures.',
+                software: ['SolidWorks', 'Weldments'],
+                link: '#'
+            },
+            {
                 type: 'image',
                 src: '/car-door.png',
                 title: 'Car Door Surface Modeling',
