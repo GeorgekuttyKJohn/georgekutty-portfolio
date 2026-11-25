@@ -198,6 +198,22 @@ export const projects = [
                 description: 'A detailed 3D CAD representation of the Taj Mahal monument enclosed inside a glass dome structure, modeled in SolidWorks.',
                 software: ['SolidWorks'],
                 link: '#'
+            },
+            {
+                type: 'image',
+                src: '/universal-coupling-catia.png',
+                title: 'Universal Coupling in Catia',
+                description: '',
+                software: ['Catia'],
+                link: '#'
+            },
+            {
+                type: 'image',
+                src: '/maruthi-800.jpg',
+                title: 'Maruthi 800',
+                description: '',
+                software: ['SolidWorks'],
+                link: '#'
             }
         ]
     },

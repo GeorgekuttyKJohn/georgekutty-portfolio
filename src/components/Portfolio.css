@@ -332,3 +332,46 @@
         max-height: 300px;
     }
 }
+
+/* Google Sheet Sync Loading State */
+.sheet-loading-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(0, 180, 216, 0.1);
+    border: 1px solid rgba(0, 180, 216, 0.25);
+    color: var(--accent-color);
+    font-size: 0.85rem;
+    letter-spacing: 0.4px;
+}
+
+.modal-loading-status {
+    display: flex;
+    width: fit-content;
+    margin: -12px auto 24px;
+}
+
+.sheet-loading-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.detail-embed-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    display: block;
+    background: #000;
+}

@@ -1,17 +1,70 @@
-import { useState, useEffect } from 'react';
-import { projects } from '../data/projects';
+import { useState, useEffect, useMemo } from 'react';
+import { projects as initialProjects } from '../data/projects';
+import { fetchGoogleSheetProjects } from '../utils/googleSheetProjects';
 import { useLocation } from 'react-router-dom';
-import { X, Play } from 'lucide-react';
+import { X, Play, Loader2 } from 'lucide-react';
 import './Portfolio.css';
 
 const Portfolio = () => {
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [sheetItems, setSheetItems] = useState([]);
+    const [isLoadingSheet, setIsLoadingSheet] = useState(true);
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [selectedProject, setSelectedProject] = useState(null);
 
     const location = useLocation();
 
     useEffect(() => {
-        if (selectedCategory) {
+        const controller = new AbortController();
+
+        const loadSheetProjects = async () => {
+            try {
+                const fetched = await fetchGoogleSheetProjects(undefined, controller.signal);
+                setSheetItems(fetched);
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.warn('Could not load Google Sheet projects, showing local projects only:', error);
+                }
+            } finally {
+                if (!controller.signal.aborted) {
+                    setIsLoadingSheet(false);
+                }
+            }
+        };
+
+        loadSheetProjects();
+        return () => controller.abort();
+    }, []);
+
+    const mergedProjects = useMemo(() => {
+        if (sheetItems.length === 0) return initialProjects;
+
+        return initialProjects.map((cat) => {
+            const matchingExtras = sheetItems
+                .filter(({ category }) => {
+                    const normalized = category.trim().toLowerCase();
+                    return (
+                        normalized === cat.title.toLowerCase() ||
+                        normalized === cat.category.toLowerCase()
+                    );
+                })
+                .map(({ item }) => item);
+
+            if (matchingExtras.length === 0) return cat;
+
+            return {
+                ...cat,
+                gallery: [...cat.gallery, ...matchingExtras]
+            };
+        });
+    }, [sheetItems]);
+
+    const selectedCategory = useMemo(
+        () => mergedProjects.find((c) => c.id === selectedCategoryId) || null,
+        [mergedProjects, selectedCategoryId]
+    );
+
+    useEffect(() => {
+        if (selectedCategoryId) {
             document.body.style.overflow = 'hidden';
             document.body.classList.add('portfolio-modal-open');
 
@@ -19,7 +72,7 @@ const Portfolio = () => {
             window.history.pushState({ portfolioModal: true }, '');
 
             const handlePopState = () => {
-                setSelectedCategory(null);
+                setSelectedCategoryId(null);
                 setSelectedProject(null);
             };
 
@@ -36,24 +89,24 @@ const Portfolio = () => {
             document.body.style.overflow = 'auto';
             document.body.classList.remove('portfolio-modal-open');
         };
-    }, [selectedCategory]);
+    }, [selectedCategoryId]);
 
     // Close modal when location changes (e.g. clicking nav links)
     useEffect(() => {
-        if (selectedCategory) {
+        if (selectedCategoryId) {
             closeCategory();
         }
     }, [location]);
 
     const openCategory = (category) => {
-        setSelectedCategory(category);
+        setSelectedCategoryId(category.id);
     };
 
     const closeCategory = () => {
         if (window.history.state && window.history.state.portfolioModal) {
             window.history.back();
         } else {
-            setSelectedCategory(null);
+            setSelectedCategoryId(null);
             setSelectedProject(null);
         }
     };
@@ -72,9 +125,16 @@ const Portfolio = () => {
             <div className="container">
                 <h2 className="section-title">PORTFOLIO</h2>
 
+                {isLoadingSheet && (
+                    <div className="sheet-loading-status" aria-live="polite">
+                        <Loader2 size={16} className="sheet-loading-spinner" />
+                        <span>Syncing latest projects...</span>
+                    </div>
+                )}
+
                 {/* 3 Main Category Cards Description */}
                 <div className="portfolio-categories-grid">
-                    {projects.map((category) => (
+                    {mergedProjects.map((category) => (
                         <div
                             key={category.id}
                             className="category-card"
@@ -105,14 +165,24 @@ const Portfolio = () => {
                                         ← Back to Portfolio
                                     </button>
                                     <h2 className="modal-title">{selectedCategory.title}</h2>
+                                    {isLoadingSheet && (
+                                        <div className="sheet-loading-status modal-loading-status" aria-live="polite">
+                                            <Loader2 size={16} className="sheet-loading-spinner" />
+                                            <span>Syncing latest projects...</span>
+                                        </div>
+                                    )}
                                     <div className="modal-gallery-grid">
                                         {selectedCategory.gallery.map((item, index) => (
                                             <div key={index} className="gallery-item" onClick={() => openProject(item)}>
                                                 {item.type === 'video' ? (
                                                     <div className="video-wrapper">
-                                                        <video autoPlay loop muted playsInline>
-                                                            <source src={item.src} type="video/mp4" />
-                                                        </video>
+                                                        {item.isEmbed ? (
+                                                            <img src={item.thumbnail || item.src} alt={item.title || `Project ${index + 1}`} />
+                                                        ) : (
+                                                            <video autoPlay loop muted playsInline>
+                                                                <source src={item.src} type="video/mp4" />
+                                                            </video>
+                                                        )}
                                                         <div className="video-indicator"><Play size={20} fill="white" /></div>
                                                     </div>
                                                 ) : (
@@ -134,9 +204,19 @@ const Portfolio = () => {
                                     <div className="detail-container">
                                         <div className="detail-media">
                                             {selectedProject.type === 'video' ? (
-                                                <video autoPlay loop muted playsInline controls>
-                                                    <source src={selectedProject.src} type="video/mp4" />
-                                                </video>
+                                                selectedProject.isEmbed ? (
+                                                    <iframe
+                                                        className="detail-embed-frame"
+                                                        src={selectedProject.src}
+                                                        title={selectedProject.title}
+                                                        allow="autoplay; encrypted-media"
+                                                        allowFullScreen
+                                                    />
+                                                ) : (
+                                                    <video autoPlay loop muted playsInline controls>
+                                                        <source src={selectedProject.src} type="video/mp4" />
+                                                    </video>
+                                                )
                                             ) : (
                                                 <img src={selectedProject.src} alt={selectedProject.title} />
                                             )}
@@ -144,7 +224,9 @@ const Portfolio = () => {
 
                                         <div className="detail-info">
                                             <h1>{selectedProject.title}</h1>
-                                            <p className="detail-description">{selectedProject.description}</p>
+                                            {selectedProject.description && (
+                                                <p className="detail-description">{selectedProject.description}</p>
+                                            )}
 
                                             {selectedProject.software && selectedProject.software.length > 0 && (
                                                 <div className="detail-meta">
