@@ -135,7 +135,10 @@ export function normalizeMediaUrl(rawUrl) {
  * into category-keyed gallery items.
  */
 export async function fetchGoogleSheetProjects(csvUrl = GOOGLE_SHEET_CSV_URL, signal) {
-    const response = await fetch(csvUrl, { signal });
+    const requestUrl = new URL(csvUrl);
+    requestUrl.searchParams.set('_t', Date.now().toString());
+
+    const response = await fetch(requestUrl.toString(), { signal });
     if (!response.ok) {
         throw new Error(`Failed to fetch Google Sheet CSV (${response.status})`);
     }

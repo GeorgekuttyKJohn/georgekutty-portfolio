@@ -166,7 +166,10 @@ const Posts = () => {
     };
 
     useEffect(() => {
-        fetch(SHEET_CSV_URL)
+        const requestUrl = new URL(SHEET_CSV_URL);
+        requestUrl.searchParams.set('_t', Date.now().toString());
+
+        fetch(requestUrl.toString())
             .then(res => { if (!res.ok) throw new Error(); return res.text(); })
             .then(csv => {
                 const parsed = parseCSV(csv);
